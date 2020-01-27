@@ -78,8 +78,8 @@ def derived_params(p_dict, p_error_dict):
     """
     p_dict["max"] = p_dict["c"] + np.abs(p_dict["a"])
     p_dict["min"] = p_dict["c"] - np.abs(p_dict["a"])
-    p_dict["t_pi"] = p_dict["t_dead"] + np.pi / p_dict["omega"]
-    p_dict["t_pi/2"] = p_dict["t_dead"] + np.pi / 2 / p_dict["omega"]
+    p_dict["t_pi"] = p_dict["t_dead"] + (np.pi - p_dict["phi"]) / p_dict["omega"]
+    p_dict["t_pi/2"] = p_dict["t_dead"] + (np.pi / 2 - p_dict["phi"]) / p_dict["omega"]
     p_dict["period"] = 2 * np.pi / p_dict["omega"]
 
     # this error calculation neglects parameter covariance!
@@ -95,12 +95,14 @@ def derived_params(p_dict, p_error_dict):
 
     p_error_dict["t_pi"] = \
         np.sqrt(p_error_dict["t_dead"]**2
-                + (np.pi / p_dict["omega"]
+                + (p_error_dict["phi"] / p_dict["omega"])**2
+                + ((np.pi - p_dict["phi"]) / p_dict["omega"]
                     * (p_error_dict["omega"] / p_dict["omega"]))**2)
 
     p_error_dict["t_pi/2"] = \
         np.sqrt(p_error_dict["t_dead"]**2
-                + (np.pi / 2 / p_dict["omega"]
+                + (p_error_dict["phi"] / p_dict["omega"])**2
+                + ((np.pi / 2 - p_dict["phi"]) / p_dict["omega"]
                     * (p_error_dict["omega"] / p_dict["omega"]))**2)
 
     p_error_dict["period"] = \
