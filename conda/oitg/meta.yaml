@@ -22,3 +22,8 @@ requirements:
     - h5py
     - statsmodels
     - scipy
+    # Version 5.2.9 of Conda's xz package is broken (so that lzma from Python's standard
+    # library fails to import), but does not seem to have been unpublished/…, so
+    # manually disallow it for now
+    # (https://github.com/conda-forge/xz-feedstock/issues/31).
+    - xz <=5.2.8,>5.2.9

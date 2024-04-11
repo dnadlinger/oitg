@@ -20,6 +20,19 @@ def make_1q_xz_pi_2_spec() -> GSTSpec:
     return GSTSpec(prep, meas, germs, "std1Q_XZ")
 
 
+def make_1q_xy_pi_2_i_spec() -> GSTSpec:
+    x = Gate("rx", (np.pi / 2, ), (0, ))
+    y = Gate("ry", (np.pi / 2, ), (0, ))
+    i = Gate("i", (np.pi / 2, ), (0, ))
+
+    prep = [(), (x, ), (y, ), (x, x), (x, x, x), (y, y, y)]
+    meas = [seq[::-1] for seq in prep]  # Here, prep == meas anyway.
+    germs = [(i, ), (x, ), (y, ), (x, y), (x, x, y), (x, y, y), (x, y, i), (x, i, y),
+             (x, i, i), (y, i, i), (x, y, y, i), (x, x, y, x, y, y)]
+
+    return GSTSpec(prep, meas, germs, "std1Q_XYI")
+
+
 def make_2q_xy_pi_2_cphase_spec() -> GSTSpec:
     """Return a two-qubit gate set using a CPHASE (CZ) gate and local π/2 x- and
     y-rotations, corresponding to pyGSTi's `std2Q_XYCPHASE` model.
